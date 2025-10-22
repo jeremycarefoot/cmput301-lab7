@@ -1,10 +1,17 @@
 package com.example.androiduitesting;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.NavHostController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -64,5 +71,21 @@ public class MainActivity extends AppCompatActivity {
                 cityAdapter.clear();
             }
         });
+
+        // Set the click listener on the ListView
+        cityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String clickedCityName = (String) parent.getItemAtPosition(position);
+                // Start the detail activity and pass the data
+                launchShowActivity(clickedCityName);
+            }
+        });
+    }
+
+    private void launchShowActivity(String cityName) {
+        Intent intent = new Intent(MainActivity.this, ShowActivity.class);
+        intent.putExtra("cityName", cityName);
+        startActivity(intent);
     }
 }
